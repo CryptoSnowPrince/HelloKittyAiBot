@@ -2,7 +2,6 @@ import aiogram
 import asyncio
 import config
 import messages
-import json
 import time
 import urllib.request
 import replicate
