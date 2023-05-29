@@ -1,2 +1,3 @@
 images/*.png
 myenv.py
+__pycache__
