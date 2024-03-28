@@ -26,7 +26,7 @@ python3 bot.py
 ## product mode
 
 ```
-pm2 start bot.py --name text2image-tg-bot --interpreter python3
+pm2 start bot.py --name text2image-tg-bot --interpreter python3 --time
 ```
 ```
 pm2 stop bot.py

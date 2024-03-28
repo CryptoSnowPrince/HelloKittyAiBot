@@ -50,46 +50,21 @@ async def handle_input(message: aiogram.types.Message):
         await pending(message, username, origin_username)
         return
     comps[username] = time.time()
-    model = replicate.models.get("tstramer/midjourney-diffusion")
-    version = model.versions.get("436b051ebd8f68d23e83d22de5e198e0995357afef113768c20f0b6fcef23c8b") # https://replicate.com/tstramer/midjourney-diffusion/versions
+    model = replicate.models.get("stability-ai/stable-diffusion")
+    version = model.versions.get(
+        "db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf")
 
-    # https://replicate.com/tstramer/midjourney-diffusion/versions/436b051ebd8f68d23e83d22de5e198e0995357afef113768c20f0b6fcef23c8b#input
+    # https://replicate.com/stability-ai/stable-diffusion/versions/f178fa7a1ae43a9a9af01b833b9d2ecf97b1bcb0acfd2dc5dd04895e042863f1#input
     inputs = {
-        'prompt': "mdjrny-v4 style" + prompt + " , no same style object",
-
-        # Specify things to not see in the output
-        # 'negative_prompt': ...,
-
-        # Width of output image. Maximum size is 1024x768 or 768x1024 because
-        # of memory limits
         'width': 768,
-
-        # Height of output image. Maximum size is 1024x768 or 768x1024 because
-        # of memory limits
         'height': 768,
-
-        # Prompt strength when using init image. 1.0 corresponds to full
-        # destruction of information in init image
         'prompt_strength': 0.8,
-
-        # Number of images to output.
-        # Range: 1 to 4
         'num_outputs': 1,
-
-        # Number of denoising steps
-        # Range: 1 to 500
         'num_inference_steps': 50,
-
-        # Scale for classifier-free guidance
-        # Range: 1 to 20
         'guidance_scale': 7.5,
-
-        # Choose a scheduler.
         'scheduler': "DPMSolverMultistep",
-
-        # Random seed. Leave blank to randomize the seed
-        # 'seed': ...,
     }
+    inputs['prompt'] = prompt
     wait_m = await message.reply(messages.message["/wait"])
     prediction = replicate.predictions.create(version=version, input=inputs)
     print("prediction thread")
